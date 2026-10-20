@@ -50,6 +50,8 @@ so now *ip will have access to value of var
 so, another_var = *ip will cause another_var to have value of var
 *ip = 0 will make var have value zero
 ip = &yet_another_var will make now ip point to yet_another_var
+
+Notice that when pointing to a variable ip = &var or ip = &yet_another_var, * operator is not used.
 ```
 
 
