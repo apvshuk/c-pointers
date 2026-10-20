@@ -54,6 +54,8 @@ ip = &yet_another_var will make now ip point to yet_another_var
 Notice that when pointing to a variable ip = &var or ip = &yet_another_var, * operator is not used.
 ```
 
+**Remember:** If ```ip``` points to the integer ```x```, then ```*ip``` can occur in any context where x could, so ```*ip = *ip + 10;``` increments whatever ip points to by 10. Unary ops * and & bind more tightly than arithmentic ops, so the expression: ```y = *ip + 1``` takes whatever ip points at, adds 1, and assigns the result to y; ```*ip += 1``` or ```++*ip``` both increment whatever ip points at by 1.
 
+**Remember:** If you do ```*ip++, it would increment ip instead of what it points to. So do (*ip)++. This is because unary operators like * and ++ associate right to left.
 
-
+Also, ```int *ip, *iq;``` are two pointers, then ip = iq is a valid thing to do. This copies the contents of ip into iq, thus making ip point to whatever iq is pointed to.
