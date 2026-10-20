@@ -23,26 +23,10 @@ As Text (ASCII Characters), each of the 256 combinations maps to a specific char
 
 So when we say a variable is x-bit, we mean - it has a series of x number of boxes and each can store either 0 or 1.
 
+## Variable Sizes
+1. size_t with format specifier %zu, is 64 bits on my machine.
+sizeof(a_variable) also returns in size_t type, so print using %zu.
+
+2. To find variable sizes, I have done the following - I define a variable (var_type) var_name = 1; This in binary would be ....00001. If variable is n-bit, there will be (n-1) 0's and one 1. Minimum number of times you can left shift this so that variable becomes 0, is the number of bits the variable has - that is the variable size in bits; divide by 8 you get the same in bytes.
+
 ## Pointers
-1. Creating a variable means "turning bits on and off somewhere in the RAM.
-
-2. When a variable in main is passed to another function; and this function changes the value of this variable. For example:
-```c
-int main(void) {
-    int nb = 42;
-    change_value(nb);
-    printf("%d", nb);
-}
-
-void change_value(int nb) {
-    nb = 100;
-}
-```
-The printf statement prints '42' not '100'. This is because C does what is called
-pass by value. Meaning, a new variable is created which is a copy of the passed variable.
-This copied new variable is deleted as soon as change_value() function is finished executing.
-To be able to pass the actual variable itself, so the change in another function
-refeclts back to main, or whichever other function called this function - we use
-pointers.
-
-3.

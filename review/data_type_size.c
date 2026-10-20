@@ -17,12 +17,13 @@ int main(void) {
 	int b;
 	short c;
 	long d;
+	size_t e;
 
 	printf("Bit Size of CHAR: %d\n", TYPE_SIZE_BYTES(a));
 	printf("Bit Size of INT: %d\n", TYPE_SIZE_BYTES(b));
 	printf("Bit Size of SHORT: %d\n", TYPE_SIZE_BYTES(c));
 	printf("Bit Size of LONG: %d\n", TYPE_SIZE_BYTES(d));
-
+	printf("Bit Size of SIZE_T: %d\n", TYPE_SIZE_BYTES(e));
 	return 0;
 }
 
