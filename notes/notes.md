@@ -1,73 +1,83 @@
 ## Basics
-1. Byte - is a chunk (bite) of information. It contains 8 bits (binary digit). 4 bits are a nibble.
 
-2. Data Types - char, short, int, long, float, double. SHORT and LONG are just qualifiers for integer datatypes which are CHAR and INT.
+**1. Byte** — A chunk (bite) of information. It contains 8 bits (binary digits). 4 bits are a nibble.
 
-3. char - 1 byte (8 bits)
-short - 2 bytes (16 bits)
-int - 4 bytes (32 bits)
-long - 4 or 8 bytes (32 or 64 bits)
-float - 4 bytes (32 bits; 6-7 decimal digits)
-double - 8 bytes (64 bits; 15 decimal digits)
+**2. Data Types** — `char`, `short`, `int`, `long`, `float`, `double`. `short` and `long` are qualifiers for the integer data types `char` and `int`.
 
-4. What does it mean to have x bits?
-- Having 8 bits means a piece of data is made up of a sequence of 8 individual binary digits (0s and 1s). Only 8. Because each bit can be only a "0" or a "1", an 8-bit slot has 2^8 possible arrangements. Meaning, 256 unique combinations, ranging from 00000000 to 11111111. Okay now, how these combinations are interpreted depends totally on how the data type is defined:
+**3. Sizes:**
+- `char` — 1 byte (8 bits)
+- `short` — 2 bytes (16 bits)
+- `int` — 4 bytes (32 bits)
+- `long` — 4 or 8 bytes (32 or 64 bits)
+- `float` — 4 bytes (32 bits; 6–7 decimal digits)
+- `double` — 8 bytes (64 bits; 15 decimal digits)
 
-As an unsigned integer, it can represent any whole number from 0 to 255
+**4. What does it mean to have x bits?**
 
-As a signed integer, it can represent from -128 to 127. (it used one bit to track + or -)
+Having 8 bits means a piece of data is made up of a sequence of 8 individual binary digits (0s and 1s) — only 8. Because each bit can only be a `0` or a `1`, an 8-bit slot has 2⁸ possible arrangements, meaning 256 unique combinations ranging from `00000000` to `11111111`. How these combinations are interpreted depends entirely on how the data type is defined:
 
-(?) okay I understand why it is asymmetric about 0, but why heavier towards the negative side, why not towards the positive; is it only a convention, or a consequence of binary algebra (?)
+- **As an unsigned integer:** any whole number from 0 to 255.
+- **As a signed integer:** any whole number from −128 to 127 (one bit is used to track sign).
 
-As Text (ASCII Characters), each of the 256 combinations maps to a specific character. For eg, the 8-bit binary pattern 01000001 equals the number 65, which computers read as capital letter "A".
+> **(?) I understand why the range is asymmetric about 0, but why is it heavier on the negative side rather than the positive — is this only a convention, or a consequence of binary algebra? (?)**
 
-So when we say a variable is x-bit, we mean - it has a series of x number of boxes and each can store either 0 or 1.
+- **As text (ASCII):** each of the 256 combinations maps to a specific character. For example, the 8-bit pattern `01000001` equals the number 65, which computers read as the capital letter `'A'`.
+
+So when we say a variable is x-bit, we mean it has a series of x boxes, each of which can store either `0` or `1`.
+
+---
 
 ## Variable Sizes
-1. size_t with format specifier %zu, is 64 bits on my machine.
-sizeof(a_variable) also returns in size_t type, so print using %zu.
 
-2. To find variable sizes, I have done the following - I define a variable (var_type) var_name = 1; This in binary would be ....00001. If variable is n-bit, there will be (n-1) 0's and one 1. Minimum number of times you can left shift this so that variable becomes 0, is the number of bits the variable has - that is the variable size in bits; divide by 8 you get the same in bytes.
+**1.** `size_t`, with format specifier `%zu`, is 64 bits on my machine. `sizeof(a_variable)` also returns a `size_t`, so print it using `%zu`.
+
+**2.** To find variable sizes, I define a variable as `var_type var_name = 1;`. In binary this would be `...00001`. If the variable is n-bit, there will be (n−1) zeros and one 1. The minimum number of times you can left-shift this before the variable becomes 0 is the number of bits the variable has — that is its size in bits. Divide by 8 to get the size in bytes.
+
+---
 
 ## Pointers
-1. The unary operator * is the indirection or dereferencing operator;
-when applied to a pointer,  it accesses the object the pointer points to.
+
+**1.** The unary operator `*` is the indirection (or dereferencing) operator. When applied to a pointer, it accesses the object the pointer points to.
+
 ```c
 int x = 1, y = 2, z[10];
 int *ip; // ip is a pointer to int
 
-ip = &x; // ip now points to x
-y = *ip; // y is now 1
-*ip = 0; // x is now 0
+ip = &x;    // ip now points to x
+y = *ip;    // y is now 1
+*ip = 0;    // x is now 0
 ip = &z[0]; // ip now points to z[0]
 ```
+
 ```
 To summarize:
-int *ip declares a pointer and says it will point to interger types only
+int *ip    declares a pointer that will point to integer types only.
 
-ip = &(var) makes ip point to var
-so now *ip will have access to value of var
-so, another_var = *ip will cause another_var to have value of var
-*ip = 0 will make var have value zero
-ip = &yet_another_var will make now ip point to yet_another_var
+ip = &var  makes ip point to var.
+           so now *ip gives access to the value of var,
+           so another_var = *ip will give another_var the value of var,
+           and *ip = 0 will set var to zero.
+ip = &yet_another_var  makes ip point to yet_another_var instead.
 
-Notice that when pointing to a variable ip = &var or ip = &yet_another_var, * operator is not used.
+Notice that when making ip point to a variable (ip = &var), the * operator is not used.
 ```
 
-**Remember:** If ```ip``` points to the integer ```x```, then ```*ip``` can occur in any context where x could, so ```*ip = *ip + 10;``` increments whatever ip points to by 10. Unary ops ```*``` and & bind more tightly than arithmentic ops, so the expression: ```y = *ip + 1``` takes whatever ip points at, adds 1, and assigns the result to y; ```*ip += 1``` or ```++*ip``` both increment whatever ip points at by 1.
+**Remember:** If `ip` points to the integer `x`, then `*ip` can appear in any context where `x` could. So `*ip = *ip + 10;` increments whatever `ip` points to by 10. The unary operators `*` and `&` bind more tightly than arithmetic operators, so `y = *ip + 1` takes whatever `ip` points at, adds 1, and assigns the result to `y`; `*ip += 1` and `++*ip` both increment whatever `ip` points at by 1.
 
-**Remember:** If you do ```*ip++, it would increment ip instead of what it points to. So do (*ip)++. This is because unary operators like ```*``` and ++ associate right to left.
+**Remember:** Writing `*ip++` will increment `ip` itself rather than what it points to — so use `(*ip)++` instead. This is because unary operators like `*` and `++` associate right to left.
 
-Also, ```int *ip, *iq;``` are two pointers, then ip = iq is a valid thing to do. This copies the contents of ip into iq, thus making ip point to whatever iq is pointed to.
+Also, given two pointers `int *ip, *iq;`, assigning `ip = iq` is valid — it copies the contents of `iq` into `ip`, making `ip` point to whatever `iq` was pointing to.
 
 **Final Summary:**
-1. *ip accesses the variable ip is pointing to.
-2. ip = &x makes ip point to x.
-3. *ip can be used wherever x is valid.
+1. `*ip` accesses the variable that `ip` is pointing to.
+2. `ip = &x` makes `ip` point to `x`.
+3. `*ip` can be used wherever `x` is valid.
 
+---
 
 ## Pointers and Function Arguments
-- C passes arguments to functions by value; so there is no direct way for the called function to alter a variable in the calling function.
+
+C passes arguments to functions by value, so there is no direct way for a called function to alter a variable in the calling function.
 
 ```c
 void swap(int x, int y) {
@@ -76,13 +86,13 @@ void swap(int x, int y) {
     x = y;
     y = tmp;
 }
-// This is wrong;
+// This is wrong.
 ```
-- The above function simply copies ```a``` and ```b``` into new variables of the same name.
 
-- The way to do this is by passing pointers to the values to be changed:
+The function above simply copies `a` and `b` into new variables of the same name. The correct approach is to pass pointers to the values to be changed:
+
 ```c
-// defintion of the function like this
+// Function definition
 void swap(int *px, int *py) {
     int tmp;
     tmp = *px;
@@ -90,59 +100,63 @@ void swap(int *px, int *py) {
     *py = tmp;
 }
 
-// when calling, call like this
+// Call site
 swap(&a, &b);
 ```
 
+---
 
 ## Pointers and Arrays
-- Book claims: "Any operation that can be achieved by array subscripting can also be done with pointers. The pointer version will in general be faster but, at least to the uninitiated, somewhat harder to understand"
 
-- We have
+The book claims: *"Any operation that can be achieved by array subscripting can also be done with pointers. The pointer version will in general be faster but, at least to the uninitiated, somewhat harder to understand."*
+
 ```c
 int *pa;
 int a[10];
-pa = &a[0]; // sets pa to point to element zero of array a;
-x = *pa; // copies contents of a[0] into x
+pa = &a[0]; // sets pa to point to element zero of array a
+x = *pa;    // copies the contents of a[0] into x
 ```
-- Now, if ```pa``` points to a particular element of an array, then BY DEFINITON, ```pa+i``` points to i elements after pa, and ```pa-i``` points to i elements before.
-- If ```pa``` points to a[0], then ```*(pa+1) refers to the contents of a[1]; pa + i is the address of a[i]; and *(pa+i) is the contents of a[i]
-- These remarks are true regardless of the type or size of the variables in the array a.
-- ```pa = &a[0]``` and ```pa = &a``` are both identical, where a is an array and pa is a pointer.
-- a reference to a[i] can rather be written as *(a+i), where a is an array; this is without defining a pointer; directly. Now apply ```&``` to both sides of this equation you get followng:
-- ```&a[i]``` and ```a + i``` are same in C
-- pa[i] is identical to *(pa+i).
-**Note:** In short, an array-and-index expression is equivalent to one written as a pointer and offset.
+
+If `pa` points to a particular element of an array, then by definition `pa + i` points to the element i positions after `pa`, and `pa - i` points to the element i positions before it.
+
+If `pa` points to `a[0]`, then:
+- `*(pa + 1)` refers to the contents of `a[1]`
+- `pa + i` is the address of `a[i]`
+- `*(pa + i)` is the contents of `a[i]`
+
+These hold true regardless of the type or size of the elements in array `a`.
+
+`pa = &a[0]` and `pa = a` are identical when `a` is an array and `pa` is a pointer.
+
+A reference to `a[i]` can also be written directly as `*(a + i)` — no pointer variable needed. Applying `&` to both sides gives us: `&a[i]` and `a + i` are identical in C. Similarly, `pa[i]` is identical to `*(pa+i)`.
+
+> **Note:** In short, an array-and-index expression is equivalent to one written as a pointer and offset.
+
 ---
 
-- Note this
+- Note this:
+
 ```c
 #include <stdio.h>
 
 // strlen: return length of string s
 int strlen_(char *);
 
-
 int main(void) {
-	char a[] = "Hello My name is Apoorva";
+    char a[] = "Hello My name is Apoorva";
 
-    // notice these two lines 
-	printf("%d", strlen_(&a[3]));
+    // notice these two lines
+    printf("%d", strlen_(&a[3]));
     printf("%d", strlen(a)); // this automatically does &a[0]
 
-	return 0;
+    return 0;
 }
 
 int strlen_(char *s) {
-	int n;
+    int n;
 
-	for (n = 0; *s != '\0'; s++)
-		n++;
-	return n;
+    for (n = 0; *s != '\0'; s++)
+        n++;
+    return n;
 }
 ```
-
-
-
-
-
