@@ -64,3 +64,85 @@ Also, ```int *ip, *iq;``` are two pointers, then ip = iq is a valid thing to do.
 1. *ip accesses the variable ip is pointing to.
 2. ip = &x makes ip point to x.
 3. *ip can be used wherever x is valid.
+
+
+## Pointers and Function Arguments
+- C passes arguments to functions by value; so there is no direct way for the called function to alter a variable in the calling function.
+
+```c
+void swap(int x, int y) {
+    int tmp;
+    tmp = x;
+    x = y;
+    y = tmp;
+}
+// This is wrong;
+```
+- The above function simply copies ```a``` and ```b``` into new variables of the same name.
+
+- The way to do this is by passing pointers to the values to be changed:
+```c
+// defintion of the function like this
+void swap(int *px, int *py) {
+    int tmp;
+    tmp = *px;
+    *px = *py;
+    *py = tmp;
+}
+
+// when calling, call like this
+swap(&a, &b);
+```
+
+
+## Pointers and Arrays
+- Book claims: "Any operation that can be achieved by array subscripting can also be done with pointers. The pointer version will in general be faster but, at least to the uninitiated, somewhat harder to understand"
+
+- We have
+```c
+int *pa;
+int a[10];
+pa = &a[0]; // sets pa to point to element zero of array a;
+x = *pa; // copies contents of a[0] into x
+```
+- Now, if ```pa``` points to a particular element of an array, then BY DEFINITON, ```pa+i``` points to i elements after pa, and ```pa-i``` points to i elements before.
+- If ```pa``` points to a[0], then ```*(pa+1) refers to the contents of a[1]; pa + i is the address of a[i]; and *(pa+i) is the contents of a[i]
+- These remarks are true regardless of the type or size of the variables in the array a.
+- ```pa = &a[0]``` and ```pa = &a``` are both identical, where a is an array and pa is a pointer.
+- a reference to a[i] can rather be written as *(a+i), where a is an array; this is without defining a pointer; directly. Now apply ```&``` to both sides of this equation you get followng:
+- ```&a[i]``` and ```a + i``` are same in C
+- pa[i] is identical to *(pa+i).
+**Note:** In short, an array-and-index expression is equivalent to one written as a pointer and offset.
+---
+
+- Note this
+```c
+#include <stdio.h>
+
+// strlen: return length of string s
+int strlen_(char *);
+
+
+int main(void) {
+	char a[] = "Hello My name is Apoorva";
+
+    // notice these two lines 
+	printf("%d", strlen_(&a[3]));
+    printf("%d", strlen(a)); // this automatically does &a[0]
+
+	return 0;
+}
+
+int strlen_(char *s) {
+	int n;
+
+	for (n = 0; *s != '\0'; s++)
+		n++;
+	return n;
+}
+```
+
+
+
+
+
