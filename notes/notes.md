@@ -147,7 +147,7 @@ int main(void) {
 
     // notice these two lines
     printf("%d", strlen_(&a[3]));
-    printf("%d", strlen(a)); // this automatically does &a[0]
+    printf("%d", strlen_(a)); // this automatically does &a[0]
 
     return 0;
 }
@@ -160,3 +160,6 @@ int strlen_(char *s) {
     return n;
 }
 ```
+- NOTE: strlen_ takes the memory address of an char variable. Now the content inside the strlen_ function wants that char variable address to be of an element of an array. The function defition does not mandate this, but the function content that executes mandates this - because it loops through the array by doing s++, which essentially does
+```*s = *(s+1);```
+
