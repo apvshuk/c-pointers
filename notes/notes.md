@@ -30,7 +30,7 @@ sizeof(a_variable) also returns in size_t type, so print using %zu.
 2. To find variable sizes, I have done the following - I define a variable (var_type) var_name = 1; This in binary would be ....00001. If variable is n-bit, there will be (n-1) 0's and one 1. Minimum number of times you can left shift this so that variable becomes 0, is the number of bits the variable has - that is the variable size in bits; divide by 8 you get the same in bytes.
 
 ## Pointers
-1. The unary operator * is the indirection of dereferencing operator;
+1. The unary operator * is the indirection or dereferencing operator;
 when applied to a pointer,  it accesses the object the pointer points to.
 ```c
 int x = 1, y = 2, z[10];
@@ -54,8 +54,13 @@ ip = &yet_another_var will make now ip point to yet_another_var
 Notice that when pointing to a variable ip = &var or ip = &yet_another_var, * operator is not used.
 ```
 
-**Remember:** If ```ip``` points to the integer ```x```, then ```*ip``` can occur in any context where x could, so ```*ip = *ip + 10;``` increments whatever ip points to by 10. Unary ops * and & bind more tightly than arithmentic ops, so the expression: ```y = *ip + 1``` takes whatever ip points at, adds 1, and assigns the result to y; ```*ip += 1``` or ```++*ip``` both increment whatever ip points at by 1.
+**Remember:** If ```ip``` points to the integer ```x```, then ```*ip``` can occur in any context where x could, so ```*ip = *ip + 10;``` increments whatever ip points to by 10. Unary ops ```*``` and & bind more tightly than arithmentic ops, so the expression: ```y = *ip + 1``` takes whatever ip points at, adds 1, and assigns the result to y; ```*ip += 1``` or ```++*ip``` both increment whatever ip points at by 1.
 
-**Remember:** If you do ```*ip++, it would increment ip instead of what it points to. So do (*ip)++. This is because unary operators like * and ++ associate right to left.
+**Remember:** If you do ```*ip++, it would increment ip instead of what it points to. So do (*ip)++. This is because unary operators like ```*``` and ++ associate right to left.
 
 Also, ```int *ip, *iq;``` are two pointers, then ip = iq is a valid thing to do. This copies the contents of ip into iq, thus making ip point to whatever iq is pointed to.
+
+**Final Summary:**
+1. *ip accesses the variable ip is pointing to.
+2. ip = &x makes ip point to x.
+3. *ip can be used wherever x is valid.
